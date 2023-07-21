@@ -5,6 +5,21 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
+  @Get()
+  getStoicQuote(): string {
+    let randomNumber: number = Math.floor(Math.random() * 4);
+    switch (randomNumber) {
+      case 0:
+        return this.appService.getAureliusQuote();
+      case 1:
+        return this.appService.getSenecaQuote();
+      case 2:
+        return this.appService.getEpictetusTheEnchridionQuote();
+      case 3:
+        return this.appService.getEpictetusDiscoursesQuote();
+    }
+  }
+
   @Get('aurelius')
   getAureliusQuote(): string {
     return this.appService.getAureliusQuote();
