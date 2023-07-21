@@ -4,8 +4,11 @@ import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
-  private quoteAndInfo(quote: string, philosopher: string, author: string, book: string, chapter: string): string {
+  private quoteAndInfo(quote: string, philosopher: string, author: string, book: string, chapter?: string): string {
     if (quote.length > 100 && quote !== "" && quote !== undefined) {
+      if (chapter === undefined) {
+        return "\"" + quote + ".\"" + " --" + `${author}, ${book}`;
+      }
       return "\"" + quote + ".\"" + " --" + `${author}, ${book}, ${chapter}`;
     } else {
       return this.processQuote(philosopher);
@@ -52,10 +55,14 @@ export class AppService {
         html = fs.readFileSync(dir + "/" + `${bookFiles[randomBookNumber]}`, 'utf8');
         quote = this.convertTextToQuote(html);
         let chapter: string = `${bookFiles[randomBookNumber]}`.replace(/[-]/g, " ");
-        chapter = chapter.replace(/.xhtml/, "");
+        chapter = chapter.replace(/.xhtml/, ""); //remove file extension from chapter name
         const chapterArray: Array<string> = chapter.split(" ");
-        chapter = chapterArray.reduce((chapterWords: string, chapterWord: string) => { return chapterWords[0].toUpperCase() + chapterWords.slice(1) + " " + chapterWord[0].toUpperCase() + chapterWord.slice(1); })
+        chapter = chapterArray.reduce((chapterWords: string, chapterWord: string) => { return chapterWords[0].toUpperCase() + chapterWords.slice(1) + " " + chapterWord[0].toUpperCase() + chapterWord.slice(1); }) //capitalize chapter name
         return this.quoteAndInfo(quote, philosopher, "Lucius Anneus Seneca", "Dialogues", `${chapter}`)
+      case "epictetus-theechiridion":
+        html = fs.readFileSync('epictetus_the-enchiridion_elizabeth-carter/src/epub/text/the-enchiridion.xhtml', 'utf8');
+        quote = this.convertTextToQuote(html);
+        return this.quoteAndInfo(quote, philosopher, "Epictetus", "The Enchiridion");
     }
   }
 
@@ -65,6 +72,10 @@ export class AppService {
 
   getSenecaQuote(): string {
     return this.processQuote('seneca');
+  }
+
+  getEpictetusTheEnchridionQuote(): string {
+    return this.processQuote('epictetus-theechiridion')
   }
 
 }

@@ -14,4 +14,9 @@ export class AppController {
   getSenecaQuote(): string {
     return this.appService.getSenecaQuote();
   }
+
+  @Get('epictetus-theenchiridion')
+  getEpictetusTheEnchridionQuote(): string {
+    return this.appService.getEpictetusTheEnchridionQuote();
+  }
 }
