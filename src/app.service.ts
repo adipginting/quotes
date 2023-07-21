@@ -63,6 +63,14 @@ export class AppService {
         html = fs.readFileSync('epictetus_the-enchiridion_elizabeth-carter/src/epub/text/the-enchiridion.xhtml', 'utf8');
         quote = this.convertTextToQuote(html);
         return this.quoteAndInfo(quote, philosopher, "Epictetus", "The Enchiridion");
+      case "epictetus-discourses":
+        randomBookNumber = Math.floor(Math.random() * 4);
+        if (randomBookNumber === 0) {
+          randomBookNumber = 1;
+        }
+        html = fs.readFileSync(`epictetus_discourses_george-long/src/epub/text/book-${randomBookNumber}.xhtml`, 'utf8');
+        quote = this.convertTextToQuote(html);
+        return this.quoteAndInfo(quote, philosopher, "Epictetus", "Discourses", `Book ${randomBookNumber}`)
     }
   }
 
@@ -78,4 +86,7 @@ export class AppService {
     return this.processQuote('epictetus-theechiridion')
   }
 
+  getEpictetusDiscoursesQuote(): string {
+    return this.processQuote('epictetus-discourses');
+  }
 }

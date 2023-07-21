@@ -19,4 +19,9 @@ export class AppController {
   getEpictetusTheEnchridionQuote(): string {
     return this.appService.getEpictetusTheEnchridionQuote();
   }
+
+  @Get('epictetus-discourses')
+  getEpictetusDiscoursesQuote(): string {
+    return this.appService.getEpictetusDiscoursesQuote();
+  }
 }
