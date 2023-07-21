@@ -1,3 +1,12 @@
 [submodule "marcus-aurelius_meditations_george-long"]
 	path = marcus-aurelius_meditations_george-long
 	url = https://github.com/standardebooks/marcus-aurelius_meditations_george-long
+[submodule "epictetus_the-enchiridion_elizabeth-carter"]
+	path = epictetus_the-enchiridion_elizabeth-carter
+	url = https://github.com/standardebooks/epictetus_the-enchiridion_elizabeth-carter
+[submodule "seneca_dialogues_aubrey-stewart"]
+	path = seneca_dialogues_aubrey-stewart
+	url = https://github.com/standardebooks/seneca_dialogues_aubrey-stewart
+[submodule "epictetus_discourses_george-long"]
+	path = epictetus_discourses_george-long
+	url = https://github.com/standardebooks/epictetus_discourses_george-long
