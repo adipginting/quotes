@@ -4,25 +4,30 @@ import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
+
   private quoteAndInfo(quote: string, philosopher: string, author: string, book: string, chapter?: string): string {
-    if (quote.length > 100 && quote !== "" && quote !== undefined) {
+
+    if (quote.length > 100) {
       if (chapter === undefined) {
-        return "\"" + quote + ".\"" + " --" + `${author}, ${book}`;
+        return "\"" + quote + "\"" + " --" + `${author}, ${book}`;
       }
-      return "\"" + quote + ".\"" + " --" + `${author}, ${book}, ${chapter}`;
+      return "\"" + quote + "\"" + " --" + `${author}, ${book}, ${chapter}`;
     } else {
       return this.processQuote(philosopher);
     }
   }
 
-  private convertTextToQuote(html: string): string {
+  private convertXHTMLTextToQuote(html: string): string {
     let text: string = convert(html, { wordwrap: false });
     text = text.replace(/\[.*?\]/g, "");
     text = text.replace(/[0-9]/g, "");
     text = text.replace("\n", "");
     const textArray: Array<string> = text.split('.');
     const randomQuoteNumber: number = Math.floor(Math.random() * textArray.length);
-    let quote: string = textArray[randomQuoteNumber];
+    let quote: string = textArray[randomQuoteNumber] + ".";
+    if (quote.length < 100) {
+      quote = textArray[randomQuoteNumber - 1] + ". " + textArray[randomQuoteNumber] + ". " + textArray[randomQuoteNumber + 1] + ".";
+    }
     quote = quote.replace(/^\s*/, "");
     return quote;
   }
@@ -39,7 +44,7 @@ export class AppService {
           randomBookNumber = 1;
         }
         html = fs.readFileSync(`marcus-aurelius_meditations_george-long/src/epub/text/book-${randomBookNumber}.xhtml`, 'utf8');
-        quote = this.convertTextToQuote(html);
+        quote = this.convertXHTMLTextToQuote(html);
         return this.quoteAndInfo(quote, philosopher, "Marcus Aurelius", "Meditations", `Book ${randomBookNumber}`);
       case "seneca":
         const dir: string = 'seneca_dialogues_aubrey-stewart/src/epub/text';
@@ -53,7 +58,7 @@ export class AppService {
 
         randomBookNumber = Math.floor(Math.random() * bookFiles.length);
         html = fs.readFileSync(dir + "/" + `${bookFiles[randomBookNumber]}`, 'utf8');
-        quote = this.convertTextToQuote(html);
+        quote = this.convertXHTMLTextToQuote(html);
         let chapter: string = `${bookFiles[randomBookNumber]}`.replace(/[-]/g, " ");
         chapter = chapter.replace(/.xhtml/, ""); //remove file extension from chapter name
         const chapterArray: Array<string> = chapter.split(" ");
@@ -61,7 +66,7 @@ export class AppService {
         return this.quoteAndInfo(quote, philosopher, "Lucius Anneus Seneca", "Dialogues", `${chapter}`)
       case "epictetus-theechiridion":
         html = fs.readFileSync('epictetus_the-enchiridion_elizabeth-carter/src/epub/text/the-enchiridion.xhtml', 'utf8');
-        quote = this.convertTextToQuote(html);
+        quote = this.convertXHTMLTextToQuote(html);
         return this.quoteAndInfo(quote, philosopher, "Epictetus", "The Enchiridion");
       case "epictetus-discourses":
         randomBookNumber = Math.floor(Math.random() * 4);
@@ -69,7 +74,7 @@ export class AppService {
           randomBookNumber = 1;
         }
         html = fs.readFileSync(`epictetus_discourses_george-long/src/epub/text/book-${randomBookNumber}.xhtml`, 'utf8');
-        quote = this.convertTextToQuote(html);
+        quote = this.convertXHTMLTextToQuote(html);
         return this.quoteAndInfo(quote, philosopher, "Epictetus", "Discourses", `Book ${randomBookNumber}`)
     }
   }
