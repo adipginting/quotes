@@ -35,9 +35,16 @@ export class AppService {
     const randomSentenceNumber: number = Math.floor(
       Math.random() * sentenceArray.length,
     );
-    let sentence: string = sentenceArray[randomSentenceNumber] + '.';
+    let sentence: string = sentenceArray[randomSentenceNumber];
+    if (/\!$|\?$/.test(sentence) === false) {
+      sentence = sentence + ".";
+    }
     sentence = sentence.replace(/^\s*/, '');
-    return sentence;
+    if (sentence.length < 200) {
+      return this.produceSentence(html);
+    } else {
+      return sentence;
+    }
   }
 
   private processQuote(philosopher: string): string {
