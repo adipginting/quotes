@@ -111,7 +111,7 @@ export class AppService {
         );
       case 'epictetus-theechiridion':
         html = fs.readFileSync(
-          'epictetus_the-enchiridion_elizabeth-carter/src/epub/text/the-enchiridion.xhtml',
+          'epictetus_short-works_george-long/src/epub/text/the-enchiridion.xhtml',
           'utf8',
         );
         quote = this.produceSentence(html);
