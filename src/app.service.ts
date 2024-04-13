@@ -12,20 +12,18 @@ export class AppService {
     book: string,
     chapter?: string,
   ): string {
-    if (quote.length > 100) {
-      if (chapter === undefined) {
-        return '"' + quote + '"' + ' --' + `${author}, ${book}`;
-      }
-      return '"' + quote + '"' + ' --' + `${author}, ${book}, ${chapter}`;
-    } else {
-      return this.processQuote(philosopher);
+    if (chapter === undefined) {
+      return '"' + quote + '"' + ' --' + `${author}, ${book}`;
     }
+    return '"' + quote + '"' + ' --' + `${author}, ${book}, ${chapter}`;
   }
 
   private produceSentence(html: string): string {
     const document = parse(html);
     const paragraphs: Array<HTMLElement> = document.querySelectorAll('p');
-    const randomParagraphNumber: number = Math.floor(Math.random() * paragraphs.length);
+    const randomParagraphNumber: number = Math.floor(
+      Math.random() * paragraphs.length,
+    );
     let paragraph = paragraphs[randomParagraphNumber].textContent;
     paragraph = convert(paragraph, { wordwrap: false });
     paragraph = paragraph.replace(/\[.*?\]/g, '');
@@ -37,7 +35,7 @@ export class AppService {
     );
     let sentence: string = sentenceArray[randomSentenceNumber];
     if (/\!$|\?$/.test(sentence) === false) {
-      sentence = sentence + ".";
+      sentence = sentence + '.';
     }
     sentence = sentence.replace(/^\s*/, '');
     if (sentence.length < 200) {
@@ -47,7 +45,11 @@ export class AppService {
     }
   }
 
-  private processQuote(philosopher: string): string {
+  private processQuote(
+    philosopher: string,
+    min?: string,
+    max?: string,
+  ): string {
     let randomBookNumber: number = 0;
     let html: string = '';
     let quote: string = '';

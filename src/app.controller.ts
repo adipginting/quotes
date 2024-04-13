@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Query } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
-  getStoicQuote(): string {
+  getStoicQuote(@Query('min') min: number, @Query('max') max: number): string {
     let randomNumber: number = Math.floor(Math.random() * 4);
     switch (randomNumber) {
       case 0:
