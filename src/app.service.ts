@@ -18,7 +18,16 @@ export class AppService {
     return '"' + quote + '"' + ' --' + `${author}, ${book}, ${chapter}`;
   }
 
-  private produceSentence(html: string): string {
+  private produceSentence(
+    html: string,
+    min?: number,
+    max?: number,
+    recursIndex?: number,
+  ): string {
+    if (recursIndex === 3) {
+      return '';
+    }
+
     const document = parse(html);
     const paragraphs: Array<HTMLElement> = document.querySelectorAll('p');
     const randomParagraphNumber: number = Math.floor(
@@ -34,22 +43,31 @@ export class AppService {
       Math.random() * sentenceArray.length,
     );
     let sentence: string = sentenceArray[randomSentenceNumber];
+
     if (/\!$|\?$/.test(sentence) === false) {
       sentence = sentence + '.';
     }
+
     sentence = sentence.replace(/^\s*/, '');
-    if (sentence.length < 200) {
-      return this.produceSentence(html);
-    } else {
-      return sentence;
+
+    if (min) {
+      return sentence.length > 100 && sentence.length >= min
+        ? sentence
+        : this.produceSentence(html, min, undefined, recursIndex + 1);
     }
+
+    if (max) {
+      return sentence.length > 100 && sentence.length <= max
+        ? sentence
+        : this.produceSentence(html, undefined, max, recursIndex + 1);
+    }
+
+    return sentence.length >= 100
+      ? sentence
+      : this.produceSentence(html, undefined, undefined, recursIndex + 1);
   }
 
-  private processQuote(
-    philosopher: string,
-    min?: string,
-    max?: string,
-  ): string {
+  processQuote(philosopher: string, min?: number, max?: number): string {
     let randomBookNumber: number = 0;
     let html: string = '';
     let quote: string = '';
@@ -63,7 +81,7 @@ export class AppService {
           `marcus-aurelius_meditations_george-long/src/epub/text/book-${randomBookNumber}.xhtml`,
           'utf8',
         );
-        quote = this.produceSentence(html);
+        quote = this.produceSentence(html, min, max);
         return this.quoteAndInfo(
           quote,
           philosopher,
@@ -86,7 +104,7 @@ export class AppService {
           dir + '/' + `${bookFiles[randomBookNumber]}`,
           'utf8',
         );
-        quote = this.produceSentence(html);
+        quote = this.produceSentence(html, min, max);
         let chapter: string = `${bookFiles[randomBookNumber]}`.replace(
           /[-]/g,
           ' ',
@@ -116,7 +134,7 @@ export class AppService {
           'epictetus_short-works_george-long/src/epub/text/the-enchiridion.xhtml',
           'utf8',
         );
-        quote = this.produceSentence(html);
+        quote = this.produceSentence(html, min, max);
         return this.quoteAndInfo(
           quote,
           philosopher,
@@ -132,7 +150,7 @@ export class AppService {
           `epictetus_discourses_george-long/src/epub/text/book-${randomBookNumber}.xhtml`,
           'utf8',
         );
-        quote = this.produceSentence(html);
+        quote = this.produceSentence(html, min, max);
         return this.quoteAndInfo(
           quote,
           philosopher,
@@ -143,19 +161,19 @@ export class AppService {
     }
   }
 
-  getAureliusQuote(): string {
-    return this.processQuote('aurelius');
+  getAureliusQuote(min?: number, max?: number): string {
+    return this.processQuote('aurelius', min, max);
   }
 
-  getSenecaQuote(): string {
-    return this.processQuote('seneca');
+  getSenecaQuote(min?: number, max?: number): string {
+    return this.processQuote('seneca', min, max);
   }
 
-  getEpictetusTheEnchridionQuote(): string {
-    return this.processQuote('epictetus-theechiridion');
+  getEpictetusTheEnchridionQuote(min?: number, max?: number): string {
+    return this.processQuote('epictetus-theechiridion', min, max);
   }
 
-  getEpictetusDiscoursesQuote(): string {
-    return this.processQuote('epictetus-discourses');
+  getEpictetusDiscoursesQuote(min?: number, max?: number): string {
+    return this.processQuote('epictetus-discourses', min, max);
   }
 }
