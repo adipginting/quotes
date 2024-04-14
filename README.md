@@ -35,8 +35,8 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 Roadmap:
-- [ ] API end points which return a sentence string with the option to set the minimum sentence string length.
-- [ ] API end points which return a sentence string with the option to set the maximum sentence string length.
+- [x] API end points which return a sentence string with the option to set the minimum sentence string length.
+- [x] API end points which return a sentence string with the option to set the maximum sentence string length.
 - [ ] API end points that return a string of a random paragraph.
 - [ ] API end points which return a JSON object of sentence string with the option to set the minimum sentence string length.
 - [ ] API end points which return a JSON object of sentence string with the option to set the maximum sentence string length.
