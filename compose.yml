@@ -1,5 +1,6 @@
 services:
   stoic-quote-api:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
