@@ -3,7 +3,6 @@ USER node
 WORKDIR /home/node
 COPY --chown=node:node . .
 
-RUN npm install -g @nestjs/cli
 RUN npm run build && npm prune --omit=dev
 
 FROM node:23-alpine3.20
