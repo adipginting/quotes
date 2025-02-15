@@ -32,7 +32,7 @@ export class AppController {
       );
     };
 
-    let randomNumber: number = Math.floor(Math.random() * 4);
+    const randomNumber: number = Math.floor(Math.random() * 4);
 
     switch (randomNumber) {
       case 0:

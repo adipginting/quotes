@@ -68,9 +68,9 @@ export class AppService {
   }
 
   processQuote(philosopher: string, min?: number, max?: number): string {
-    let randomBookNumber: number = 0;
-    let html: string = '';
-    let quote: string = '';
+    let randomBookNumber = 0;
+    let html = '';
+    let quote = '';
     switch (philosopher) {
       case 'aurelius':
         randomBookNumber = Math.floor(Math.random() * 12);
@@ -90,11 +90,11 @@ export class AppService {
           `Book ${randomBookNumber}`,
         );
       case 'seneca':
-        const dir: string = 'seneca_dialogues_aubrey-stewart/src/epub/text';
+        const dir = 'seneca_dialogues_aubrey-stewart/src/epub/text';
         const files: Array<string> = fs.readdirSync(dir);
-        let bookFiles: Array<string> = [];
+        const bookFiles: Array<string> = [];
 
-        for (let i: number = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i++) {
           if (files[i].includes('on-') || files[i].includes('to-'))
             bookFiles.push(files[i]);
         }
