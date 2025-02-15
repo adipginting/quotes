@@ -1,4 +1,6 @@
 FROM node:23-alpine3.20 AS builder
+RUN npm install -g @nestjs/cli
+
 USER node
 WORKDIR /home/node
 COPY --chown=node:node . .
