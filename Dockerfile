@@ -3,7 +3,7 @@ USER node
 WORKDIR /home/node
 COPY --chown=node:node . .
 
-RUN npm run build && npm prune --omit=dev
+RUN npx nest build && npm prune --omit=dev
 
 FROM node:23-alpine3.20
 USER node
